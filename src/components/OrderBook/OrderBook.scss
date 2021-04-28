@@ -1,0 +1,15 @@
+.OrderBook {
+  background: #282c34;
+  color: #fff;
+  width: 400px;
+  padding: 16px;
+  border-radius: 8px;
+
+  &_Container {
+  }
+
+  &_Actions {
+    margin: 16px 0;
+    color: lightgray;
+  }
+}

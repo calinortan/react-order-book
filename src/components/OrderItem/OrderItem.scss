@@ -1,0 +1,22 @@
+.OrderItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  user-select: none;
+  position: relative;
+  height: 20px;
+  font-size: 12px;
+  &_Column {
+    flex: 1;
+  }
+  &_Ratio {
+    position: absolute;
+    background-color: green;
+    opacity: 0.2;
+    width: 100%;
+    height: 100%;
+  }
+  &:hover {
+    background: #636d81;
+  }
+}
