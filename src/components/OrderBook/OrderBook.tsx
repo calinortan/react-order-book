@@ -1,11 +1,12 @@
 import React, { useMemo } from "react";
 import { keys, max, min } from "lodash";
+import Loader from "react-loader-spinner";
 import { useOrders } from "containers/ApiProvider";
 import OrderGrid, { OrderType } from "components/OrderGrid";
 import "./OrderBook.scss";
 
 const OrderBook = () => {
-  const { bids, asks } = useOrders();
+  const { bids, asks, connecting, error } = useOrders();
 
   const spread = useMemo(() => {
     const lastAskPrice = Number(min(keys(asks)));
@@ -14,14 +15,28 @@ const OrderBook = () => {
     return Math.abs(lastAskPrice - firstBidPrice);
   }, [asks, bids]);
 
-  return (
-    <div className="OrderBook">
-      <OrderGrid type={OrderType.Ask} orders={asks} />
+  const renderContent = () => {
+    if (error) {
+      return <span>{error}</span>;
+    }
+    if (connecting) {
+      return (
+        <Loader type={"MutatingDots"} color="teal" secondaryColor="teal" />
+      );
+    }
 
-      <div className="OrderBook_Actions">{`Spread: ${spread}`}</div>
-      <OrderGrid type={OrderType.Bid} orders={bids} />
-    </div>
-  );
+    return (
+      <>
+        <OrderGrid type={OrderType.Ask} orders={asks} />
+        {!isNaN(spread) && (
+          <div className="OrderBook_Actions">{`Spread: ${spread}`}</div>
+        )}
+        <OrderGrid type={OrderType.Bid} orders={bids} />
+      </>
+    );
+  };
+
+  return <div className="OrderBook">{renderContent()}</div>;
 };
 
 export default OrderBook;

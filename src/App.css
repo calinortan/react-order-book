@@ -29,6 +29,7 @@
 .App-container {
   padding: 8px;
   background-color: lightgray;
+  display: flex;
   flex: 1;
 }
 
