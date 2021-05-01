@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/react-order-book/static/css/main.409d5e9a.chunk.css",
+    "main.js": "/react-order-book/static/js/main.e2c955fa.chunk.js",
+    "main.js.map": "/react-order-book/static/js/main.e2c955fa.chunk.js.map",
+    "runtime-main.js": "/react-order-book/static/js/runtime-main.35e13b0f.js",
+    "runtime-main.js.map": "/react-order-book/static/js/runtime-main.35e13b0f.js.map",
+    "static/js/2.43ba22a6.chunk.js": "/react-order-book/static/js/2.43ba22a6.chunk.js",
+    "static/js/2.43ba22a6.chunk.js.map": "/react-order-book/static/js/2.43ba22a6.chunk.js.map",
+    "static/js/3.56c35168.chunk.js": "/react-order-book/static/js/3.56c35168.chunk.js",
+    "static/js/3.56c35168.chunk.js.map": "/react-order-book/static/js/3.56c35168.chunk.js.map",
+    "index.html": "/react-order-book/index.html",
+    "static/css/main.409d5e9a.chunk.css.map": "/react-order-book/static/css/main.409d5e9a.chunk.css.map",
+    "static/js/2.43ba22a6.chunk.js.LICENSE.txt": "/react-order-book/static/js/2.43ba22a6.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/react-order-book/static/media/logo.6ce24c58.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.35e13b0f.js",
+    "static/js/2.43ba22a6.chunk.js",
+    "static/css/main.409d5e9a.chunk.css",
+    "static/js/main.e2c955fa.chunk.js"
+  ]
+}
