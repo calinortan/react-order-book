@@ -23,10 +23,11 @@ const OrderBookActions: React.FC<OrderBookActionsProps> = ({
   }
   return (
     <div className="OrderBookActions">
-      <div>{`Spread: ${spread}`}</div>
-      <div>{`Group: ${group}`}</div>
+      <div data-testid="order-book-spread">{`Spread: ${spread}`}</div>
+      <div data-testid="order-book-group">{`Group: ${group}`}</div>
       <div>
         <button
+          data-testid="increase-group"
           className="OrderBookActions_GroupChanger"
           onClick={handleIncrease}
           disabled={increaseDisabled}
@@ -34,6 +35,7 @@ const OrderBookActions: React.FC<OrderBookActionsProps> = ({
           +
         </button>
         <button
+          data-testid="decrease-group"
           className="OrderBookActions_GroupChanger"
           onClick={handleDecrease}
           disabled={decreaseDisabled}

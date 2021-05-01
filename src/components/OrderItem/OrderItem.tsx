@@ -12,7 +12,7 @@ interface OrderItemProps {
 const OrderItem: React.FC<OrderItemProps> = memo((props) => {
   const { price, size, total, ratio = 0, ratioColor = "green" } = props;
   return (
-    <div className="OrderItem">
+    <div data-testid="order-item" className="OrderItem">
       <div
         className="OrderItem_Ratio"
         style={{ width: `${ratio}%`, backgroundColor: ratioColor }}
