@@ -1,5 +1,5 @@
-import React, { createContext, useContext } from "react";
-import { throttle } from "lodash";
+import React, { createContext, useCallback, useContext, useMemo } from "react";
+import { throttle, keys, min, max } from "lodash";
 import { OrdersMap, OrderBookMessage } from "types";
 
 const WS_URL = "wss://www.cryptofacilities.com/ws/v1";
@@ -146,8 +146,53 @@ class ApiProvider extends React.Component<{}, ApiProviderState> {
   }
 }
 
-export const useOrders = () => {
-  return useContext(ApiProviderContext);
+export const useOrders = (groupFactor = 0.5) => {
+  const contextValue = useContext(ApiProviderContext);
+
+  const spread = useMemo(() => {
+    const lastAskPrice = Number(min(keys(contextValue.asks)));
+    const firstBidPrice = Number(max(keys(contextValue.bids)));
+
+    return Math.abs(lastAskPrice - firstBidPrice);
+  }, [contextValue.asks, contextValue.bids]);
+
+  const getGroupedOrders = useCallback(
+    (orders: OrdersMap) => {
+      const orderMap: OrdersMap = keys(orders).reduce((acc, currentPrice) => {
+        const roundPrice =
+          Math.floor(Number(currentPrice) / groupFactor) * groupFactor;
+
+        if (acc[roundPrice] == null) {
+          acc[roundPrice] = 0;
+        }
+
+        const newAmount = acc[roundPrice] + orders[Number(currentPrice)];
+
+        return { ...acc, [roundPrice]: newAmount };
+      }, {} as OrdersMap);
+
+      return orderMap;
+    },
+    [groupFactor]
+  );
+
+  const bids = useMemo(() => {
+    if (groupFactor < 1) {
+      return contextValue.bids;
+    }
+
+    return getGroupedOrders(contextValue.bids);
+  }, [contextValue.bids, groupFactor, getGroupedOrders]);
+
+  const asks = useMemo(() => {
+    if (!groupFactor) {
+      return contextValue.asks;
+    }
+
+    return getGroupedOrders(contextValue.asks);
+  }, [contextValue.asks, groupFactor, getGroupedOrders]);
+
+  return { ...contextValue, bids, asks, spread };
 };
 
 export default ApiProvider;

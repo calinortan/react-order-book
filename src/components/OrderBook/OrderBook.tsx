@@ -1,19 +1,28 @@
-import React, { useMemo } from "react";
-import { keys, max, min } from "lodash";
+import React, { useState } from "react";
 import Loader from "react-loader-spinner";
 import { useOrders } from "containers/ApiProvider";
 import OrderGrid, { OrderType } from "components/OrderGrid";
+import OrderBookActions from "components/OrderBookActions";
 import "./OrderBook.scss";
 
+const GROUP_OPTIONS = [0.5, 1, 5, 10, 25, 50];
 const OrderBook = () => {
-  const { bids, asks, connecting, error } = useOrders();
+  const [groupIndex, setGroupIndex] = useState(0);
+  const { bids, asks, spread, connecting, error } = useOrders(
+    GROUP_OPTIONS[groupIndex]
+  );
 
-  const spread = useMemo(() => {
-    const lastAskPrice = Number(min(keys(asks)));
-    const firstBidPrice = Number(max(keys(bids)));
+  const handleIncreaseGroup = () => {
+    if (groupIndex < GROUP_OPTIONS.length - 1) {
+      setGroupIndex(groupIndex + 1);
+    }
+  };
 
-    return Math.abs(lastAskPrice - firstBidPrice);
-  }, [asks, bids]);
+  const handleDecreaseGroup = () => {
+    if (groupIndex > 0) {
+      setGroupIndex(groupIndex - 1);
+    }
+  };
 
   const renderContent = () => {
     if (error) {
@@ -28,9 +37,14 @@ const OrderBook = () => {
     return (
       <>
         <OrderGrid type={OrderType.Ask} orders={asks} />
-        {!isNaN(spread) && (
-          <div className="OrderBook_Actions">{`Spread: ${spread}`}</div>
-        )}
+        <OrderBookActions
+          spread={spread}
+          group={GROUP_OPTIONS[groupIndex]}
+          handleDecrease={handleDecreaseGroup}
+          decreaseDisabled={groupIndex === 0}
+          handleIncrease={handleIncreaseGroup}
+          increaseDisabled={groupIndex === GROUP_OPTIONS.length - 1}
+        />
         <OrderGrid type={OrderType.Bid} orders={bids} />
       </>
     );
